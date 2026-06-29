@@ -1,0 +1,8 @@
+node_modules/
+dist/
+playground/dist/
+playground/.astro/
+.astro/
+*.log
+.DS_Store
+CLAUDE.md

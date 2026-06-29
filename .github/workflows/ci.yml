@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Build library
+        run: npm run build
+
+      # The real test: build a real Astro site against the freshly built lib
+      # and assert purist mode ships zero <script> tags.
+      - name: Playground smoke test
+        run: |
+          cd playground
+          npm ci
+          npm run build
+          if grep -q '<script' dist/index.html; then
+            echo "::error::Purist mode leaked a <script> tag — zero-JS guarantee broken"
+            exit 1
+          fi
+          echo "OK: purist build shipped zero client JS"

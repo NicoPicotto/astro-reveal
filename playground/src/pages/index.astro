@@ -1,0 +1,11 @@
+---
+import Reveal from "astro-reveal/Reveal.astro";
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Test</title></head>
+  <body>
+    <Reveal animation="up"><h1>Hola</h1></Reveal>
+    <div data-reveal="fade">Raw attribute works too</div>
+    <Reveal animation="scale" distance="3rem" index={2} as="section">Stagger</Reveal>
+  </body>
+</html>

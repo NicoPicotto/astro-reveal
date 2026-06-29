@@ -1,0 +1,54 @@
+---
+/*
+ * <Reveal> — ergonomic wrapper over the `data-reveal` attribute.
+ * Works the same under both engines because it only sets the attribute and a
+ * few CSS custom properties; the integration's CSS/JS does the rest.
+ *
+ *   <Reveal animation="up">…</Reveal>
+ *   <Reveal animation="scale" distance="3rem" index={2} as="section">…</Reveal>
+ *
+ * For raw HTML (no component), just use the attribute directly:
+ *   <div data-reveal="fade">…</div>
+ */
+export type RevealAnimation = "up" | "down" | "left" | "right" | "fade" | "scale" | "blur";
+
+interface Props {
+  /** Direction the element travels as it appears. @default "up" */
+  animation?: RevealAnimation;
+  /** Element/tag to render. @default "div" */
+  as?: string;
+  /** Travel distance (up/down/left/right) e.g. "2rem". */
+  distance?: string;
+  /** Stagger position within a group (0,1,2,…). */
+  index?: number;
+  /** Transition duration in observer mode, e.g. "500ms". */
+  duration?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  animation = "up",
+  as: Tag = "div",
+  distance,
+  index,
+  duration,
+  class: className,
+  style: userStyle,
+  ...rest
+} = Astro.props;
+
+const vars = [
+  distance ? `--reveal-distance:${distance}` : "",
+  index != null ? `--reveal-index:${index}` : "",
+  duration ? `--reveal-duration:${duration}` : "",
+]
+  .filter(Boolean)
+  .join(";");
+
+const style = [vars, userStyle].filter(Boolean).join(";") || undefined;
+---
+
+<Tag data-reveal={animation} class={className} style={style} {...rest}>
+  <slot />
+</Tag>
