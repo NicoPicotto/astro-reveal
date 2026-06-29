@@ -6,3 +6,4 @@ playground/.astro/
 *.log
 .DS_Store
 CLAUDE.md
+internal.md

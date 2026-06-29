@@ -21,109 +21,173 @@
  */
 
 @layer astro-reveal {
+   /* Tunable knobs. Override per-element via inline style or globally here. */
+   [data-reveal] {
+      --reveal-distance: 1.5rem;
+      --reveal-blur: 8px;
+      --reveal-scale: 0.94;
+      --reveal-duration: 700ms;
+      --reveal-easing: cubic-bezier(0.16, 1, 0.3, 1); /* easeOutExpo-ish */
+      --reveal-index: 0; /* stagger position within a group */
+      --reveal-stagger: 90ms; /* per-index delay (observer mode) */
+   }
 
-  /* Tunable knobs. Override per-element via inline style or globally here. */
-  [data-reveal] {
-    --reveal-distance: 1.5rem;
-    --reveal-blur: 8px;
-    --reveal-scale: 0.94;
-    --reveal-duration: 700ms;
-    --reveal-easing: cubic-bezier(0.16, 1, 0.3, 1); /* easeOutExpo-ish */
-    --reveal-index: 0;        /* stagger position within a group */
-    --reveal-stagger: 90ms;   /* per-index delay (observer mode) */
-  }
-
-  /* ============================================================
+   /* ============================================================
    * PURIST ENGINE — native scroll-driven animations
    * Only on browsers that support it AND when JS engine is off.
    * If unsupported, NOTHING here applies, so content shows normally.
    * => FOUC / hidden-forever content is structurally impossible.
    * ============================================================ */
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      :where(html:not(.reveal-js)) [data-reveal] {
-        animation: linear both;
-        animation-timeline: view();
-        /* Best-effort stagger: nudge the scroll window per index.
+   @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: view()) {
+         :where(html:not(.reveal-js)) [data-reveal] {
+            animation: linear both;
+            animation-timeline: view();
+            /* Best-effort stagger: nudge the scroll window per index.
            Grouped stagger is crisper in observer mode. */
-        animation-range:
-          entry calc(0% + var(--reveal-index) * 4%)
-          cover calc(30% + var(--reveal-index) * 4%);
+            animation-range: entry calc(15% + var(--reveal-index) * 4%) cover
+               calc(50% + var(--reveal-index) * 4%);
+         }
+
+         :where(html:not(.reveal-js)) [data-reveal="up"] {
+            animation-name: reveal-up;
+         }
+         :where(html:not(.reveal-js)) [data-reveal="down"] {
+            animation-name: reveal-down;
+         }
+         :where(html:not(.reveal-js)) [data-reveal="left"] {
+            animation-name: reveal-left;
+         }
+         :where(html:not(.reveal-js)) [data-reveal="right"] {
+            animation-name: reveal-right;
+         }
+         :where(html:not(.reveal-js)) [data-reveal="fade"] {
+            animation-name: reveal-fade;
+         }
+         :where(html:not(.reveal-js)) [data-reveal="scale"] {
+            animation-name: reveal-scale;
+         }
+         :where(html:not(.reveal-js)) [data-reveal="blur"] {
+            animation-name: reveal-blur;
+         }
       }
+   }
 
-      :where(html:not(.reveal-js)) [data-reveal="up"]    { animation-name: reveal-up; }
-      :where(html:not(.reveal-js)) [data-reveal="down"]  { animation-name: reveal-down; }
-      :where(html:not(.reveal-js)) [data-reveal="left"]  { animation-name: reveal-left; }
-      :where(html:not(.reveal-js)) [data-reveal="right"] { animation-name: reveal-right; }
-      :where(html:not(.reveal-js)) [data-reveal="fade"]  { animation-name: reveal-fade; }
-      :where(html:not(.reveal-js)) [data-reveal="scale"] { animation-name: reveal-scale; }
-      :where(html:not(.reveal-js)) [data-reveal="blur"]  { animation-name: reveal-blur; }
-    }
-  }
-
-  /* ============================================================
+   /* ============================================================
    * OBSERVER ENGINE — IntersectionObserver + class toggle
    * Hidden state is scoped under `.reveal-js`, which is only ever
    * added by JS. So if JS is disabled, the class never appears and
    * content stays visible. Reduced-motion users never get hidden.
    * ============================================================ */
-  @media (prefers-reduced-motion: no-preference) {
-    html.reveal-js [data-reveal] {
-      opacity: 0;
-      transition-property: opacity, transform, filter;
-      transition-duration: var(--reveal-duration);
-      transition-timing-function: var(--reveal-easing);
-      transition-delay: calc(var(--reveal-index) * var(--reveal-stagger));
-      will-change: opacity, transform;
-    }
+   @media (prefers-reduced-motion: no-preference) {
+      html.reveal-js [data-reveal] {
+         opacity: 0;
+         transition-property: opacity, transform, filter;
+         transition-duration: var(--reveal-duration);
+         transition-timing-function: var(--reveal-easing);
+         transition-delay: calc(var(--reveal-index) * var(--reveal-stagger));
+         will-change: opacity, transform;
+      }
 
-    html.reveal-js [data-reveal="up"]    { transform: translateY(var(--reveal-distance)); }
-    html.reveal-js [data-reveal="down"]  { transform: translateY(calc(-1 * var(--reveal-distance))); }
-    html.reveal-js [data-reveal="left"]  { transform: translateX(var(--reveal-distance)); }
-    html.reveal-js [data-reveal="right"] { transform: translateX(calc(-1 * var(--reveal-distance))); }
-    html.reveal-js [data-reveal="scale"] { transform: scale(var(--reveal-scale)); }
-    html.reveal-js [data-reveal="blur"]  { filter: blur(var(--reveal-blur)); }
-    /* "fade" needs no transform, opacity:0 above is enough */
+      html.reveal-js [data-reveal="up"] {
+         transform: translateY(var(--reveal-distance));
+      }
+      html.reveal-js [data-reveal="down"] {
+         transform: translateY(calc(-1 * var(--reveal-distance)));
+      }
+      html.reveal-js [data-reveal="left"] {
+         transform: translateX(var(--reveal-distance));
+      }
+      html.reveal-js [data-reveal="right"] {
+         transform: translateX(calc(-1 * var(--reveal-distance)));
+      }
+      html.reveal-js [data-reveal="scale"] {
+         transform: scale(var(--reveal-scale));
+      }
+      html.reveal-js [data-reveal="blur"] {
+         filter: blur(var(--reveal-blur));
+      }
+      /* "fade" needs no transform, opacity:0 above is enough */
 
-    /* The revealed state: everything snaps back to neutral. */
-    html.reveal-js [data-reveal].is-revealed {
-      opacity: 1;
-      transform: none;
-      filter: none;
-    }
-  }
+      /* The revealed state: everything snaps back to neutral. */
+      html.reveal-js [data-reveal].is-revealed {
+         opacity: 1;
+         transform: none;
+         filter: none;
+      }
+   }
 
-  /* ============================================================
+   /* ============================================================
    * KEYFRAMES (shared by the purist engine)
    * Naming follows AOS: the value is the direction the element
    * TRAVELS as it appears. `up` rises into place (starts below).
    * ============================================================ */
-  @keyframes reveal-up {
-    from { opacity: 0; transform: translateY(var(--reveal-distance)); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes reveal-down {
-    from { opacity: 0; transform: translateY(calc(-1 * var(--reveal-distance))); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes reveal-left {
-    from { opacity: 0; transform: translateX(var(--reveal-distance)); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-  @keyframes reveal-right {
-    from { opacity: 0; transform: translateX(calc(-1 * var(--reveal-distance))); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-  @keyframes reveal-fade {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-  @keyframes reveal-scale {
-    from { opacity: 0; transform: scale(var(--reveal-scale)); }
-    to   { opacity: 1; transform: scale(1); }
-  }
-  @keyframes reveal-blur {
-    from { opacity: 0; filter: blur(var(--reveal-blur)); }
-    to   { opacity: 1; filter: blur(0); }
-  }
+   @keyframes reveal-up {
+      from {
+         opacity: 0;
+         transform: translateY(var(--reveal-distance));
+      }
+      to {
+         opacity: 1;
+         transform: translateY(0);
+      }
+   }
+   @keyframes reveal-down {
+      from {
+         opacity: 0;
+         transform: translateY(calc(-1 * var(--reveal-distance)));
+      }
+      to {
+         opacity: 1;
+         transform: translateY(0);
+      }
+   }
+   @keyframes reveal-left {
+      from {
+         opacity: 0;
+         transform: translateX(var(--reveal-distance));
+      }
+      to {
+         opacity: 1;
+         transform: translateX(0);
+      }
+   }
+   @keyframes reveal-right {
+      from {
+         opacity: 0;
+         transform: translateX(calc(-1 * var(--reveal-distance)));
+      }
+      to {
+         opacity: 1;
+         transform: translateX(0);
+      }
+   }
+   @keyframes reveal-fade {
+      from {
+         opacity: 0;
+      }
+      to {
+         opacity: 1;
+      }
+   }
+   @keyframes reveal-scale {
+      from {
+         opacity: 0;
+         transform: scale(var(--reveal-scale));
+      }
+      to {
+         opacity: 1;
+         transform: scale(1);
+      }
+   }
+   @keyframes reveal-blur {
+      from {
+         opacity: 0;
+         filter: blur(var(--reveal-blur));
+      }
+      to {
+         opacity: 1;
+         filter: blur(0);
+      }
+   }
 }
