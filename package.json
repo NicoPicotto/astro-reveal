@@ -3,7 +3,7 @@
    "version": "0.1.2",
    "description": "Scroll reveal animations for Astro. Zero-JS by default via native CSS scroll-driven animations, with an opt-in IntersectionObserver engine. UI-framework agnostic.",
    "type": "module",
-   "author": "Nicolás Picoto",
+   "author": "Nicolás Picotto",
    "license": "MIT",
    "keywords": [
       "astro",
