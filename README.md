@@ -143,4 +143,4 @@ A tiny head-inline script (only injected in `observer`/`auto` modes) decides whi
 
 ## License
 
-MIT © Nicolás Picoto
+MIT © Nicolás Picotto

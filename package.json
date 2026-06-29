@@ -1,63 +1,62 @@
 {
-  "name": "astro-reveal",
-  "version": "0.1.0",
-  "description": "Scroll reveal animations for Astro. Zero-JS by default via native CSS scroll-driven animations, with an opt-in IntersectionObserver engine. UI-framework agnostic.",
-  "type": "module",
-  "author": "Nicolás Picoto",
-  "license": "MIT",
-  "keywords": [
-    "astro",
-    "astro-integration",
-    "astro-component",
-    "withastro",
-    "animation",
-    "scroll",
-    "reveal",
-    "scroll-driven-animations",
-    "aos",
-    "intersection-observer"
-  ],
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "./Reveal.astro": "./Reveal.astro",
-    "./observer": "./dist/runtime/observer.js",
-    "./styles.css": "./dist/styles/reveal.css"
-  },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist",
-    "Reveal.astro",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "build": "tsc && node scripts/copy-assets.mjs",
-    "dev": "tsc --watch",
-    "typecheck": "tsc --noEmit",
-    "changeset": "changeset",
-    "version": "changeset version",
-    "release": "npm run build && changeset publish",
-    "prepublishOnly": "npm run build"
-  },
-  "publishConfig": {
-    "access": "public",
-    "provenance": true
-  },
-  "peerDependencies": {
-    "astro": ">=4.0.0"
-  },
-  "devDependencies": {
-    "@changesets/cli": "^2.31.0",
-    "@types/node": "^20.11.0",
-    "astro": "^4.16.0",
-    "typescript": "^5.4.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nicopicoto/astro-reveal.git"
-  }
+   "name": "astro-reveal",
+   "version": "0.1.0",
+   "description": "Scroll reveal animations for Astro. Zero-JS by default via native CSS scroll-driven animations, with an opt-in IntersectionObserver engine. UI-framework agnostic.",
+   "type": "module",
+   "author": "Nicolás Picoto",
+   "license": "MIT",
+   "keywords": [
+      "astro",
+      "astro-integration",
+      "astro-component",
+      "withastro",
+      "animation",
+      "scroll",
+      "reveal",
+      "scroll-driven-animations",
+      "aos",
+      "intersection-observer"
+   ],
+   "exports": {
+      ".": {
+         "types": "./dist/index.d.ts",
+         "default": "./dist/index.js"
+      },
+      "./Reveal.astro": "./Reveal.astro",
+      "./observer": "./dist/runtime/observer.js",
+      "./styles.css": "./dist/styles/reveal.css"
+   },
+   "main": "./dist/index.js",
+   "types": "./dist/index.d.ts",
+   "files": [
+      "dist",
+      "Reveal.astro",
+      "README.md",
+      "LICENSE"
+   ],
+   "scripts": {
+      "build": "tsc && node scripts/copy-assets.mjs",
+      "dev": "tsc --watch",
+      "typecheck": "tsc --noEmit",
+      "changeset": "changeset",
+      "version": "changeset version",
+      "release": "npm run build && changeset publish",
+      "prepublishOnly": "npm run build"
+   },
+   "publishConfig": {
+      "access": "public"
+   },
+   "peerDependencies": {
+      "astro": ">=4.0.0"
+   },
+   "devDependencies": {
+      "@changesets/cli": "^2.31.0",
+      "@types/node": "^20.11.0",
+      "astro": "^4.16.0",
+      "typescript": "^5.4.0"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/NicoPicotto/astro-reveal.git"
+   }
 }
