@@ -117,6 +117,67 @@ Tune per element with CSS custom properties (via the component or inline style):
 
 Set them globally by targeting `[data-reveal]` in your own CSS. Everything ships inside `@layer astro-reveal`, so your styles always win without specificity battles.
 
+### Easing presets
+
+> **Mode note:** `data-easing` / `easing` and `data-speed` / `speed` only take effect in `observer` and `auto` modes. In `scroll` mode (the default, purist engine) the animation timing is driven by scroll position and uses a fixed linear curve by design — these attributes do nothing there and that is not a bug. `data-distance-preset` / `distancePreset` works in both engines.
+
+Pick a named easing curve with `data-easing` or the component prop:
+
+```html
+<div data-reveal="up" data-easing="bounce">…</div>
+```
+
+```astro
+<Reveal animation="up" easing="bounce">…</Reveal>
+```
+
+| Value | Curve | Feel |
+| --------- | ----------------------------------------- | ------------------------------ |
+| `smooth`  | `cubic-bezier(0.16, 1, 0.3, 1)`           | easeOutExpo — **default**      |
+| `bounce`  | `cubic-bezier(0.34, 1.56, 0.64, 1)`       | slight overshoot / spring      |
+| `elastic` | `cubic-bezier(0.68, -0.55, 0.27, 1.55)`   | pronounced back-and-forth snap |
+| `sharp`   | `cubic-bezier(0.4, 0, 0.2, 1)`            | Material Design crisp          |
+| `soft`    | `cubic-bezier(0.33, 1, 0.68, 1)`          | easeOutCubic, gentle           |
+
+These are sugar over `--reveal-easing`. Setting the variable directly always wins.
+
+### Speed presets
+
+```html
+<div data-reveal="fade" data-speed="fast">…</div>
+```
+
+```astro
+<Reveal animation="fade" speed="fast">…</Reveal>
+```
+
+| Value | `--reveal-duration` |
+| --------- | ------------------- |
+| `instant` | `200ms` |
+| `fast`    | `400ms` |
+| `normal`  | `700ms` (= default) |
+| `slow`    | `1100ms` |
+
+Sugar over `--reveal-duration`. The `duration` prop / inline var always wins.
+
+### Distance presets
+
+```html
+<div data-reveal="left" data-distance-preset="large">…</div>
+```
+
+```astro
+<Reveal animation="left" distancePreset="large">…</Reveal>
+```
+
+| Value    | `--reveal-distance` |
+| -------- | ------------------- |
+| `small`  | `0.5rem`  |
+| `medium` | `1.5rem` (= default) |
+| `large`  | `3rem`    |
+
+Sugar over `--reveal-distance`. The `distance` prop / inline var always wins.
+
 ### Stagger
 
 ```astro

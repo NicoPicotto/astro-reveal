@@ -32,6 +32,24 @@
       --reveal-stagger: 90ms; /* per-index delay (observer mode) */
    }
 
+   /* Named easing presets — observer/auto mode only (sets --reveal-easing) */
+   [data-reveal][data-easing="smooth"]  { --reveal-easing: cubic-bezier(0.16, 1, 0.3, 1); }
+   [data-reveal][data-easing="bounce"]  { --reveal-easing: cubic-bezier(0.34, 1.56, 0.64, 1); }
+   [data-reveal][data-easing="elastic"] { --reveal-easing: cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+   [data-reveal][data-easing="sharp"]   { --reveal-easing: cubic-bezier(0.4, 0, 0.2, 1); }
+   [data-reveal][data-easing="soft"]    { --reveal-easing: cubic-bezier(0.33, 1, 0.68, 1); }
+
+   /* Speed presets — observer/auto mode only (sets --reveal-duration) */
+   [data-reveal][data-speed="instant"] { --reveal-duration: 200ms; }
+   [data-reveal][data-speed="fast"]    { --reveal-duration: 400ms; }
+   [data-reveal][data-speed="normal"]  { --reveal-duration: 700ms; }
+   [data-reveal][data-speed="slow"]    { --reveal-duration: 1100ms; }
+
+   /* Distance presets — both engines (sets --reveal-distance) */
+   [data-reveal][data-distance-preset="small"]  { --reveal-distance: 0.5rem; }
+   [data-reveal][data-distance-preset="medium"] { --reveal-distance: 1.5rem; }
+   [data-reveal][data-distance-preset="large"]  { --reveal-distance: 3rem; }
+
    /* ============================================================
    * PURIST ENGINE — native scroll-driven animations
    * Only on browsers that support it AND when JS engine is off.
