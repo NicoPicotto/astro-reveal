@@ -23,6 +23,12 @@ interface Props {
   index?: number;
   /** Transition duration in observer mode, e.g. "500ms". */
   duration?: string;
+  /** Named easing preset. Observer/auto mode only. @default "smooth" */
+  easing?: "smooth" | "bounce" | "elastic" | "sharp" | "soft";
+  /** Named speed preset (sets transition duration). Observer/auto mode only. */
+  speed?: "instant" | "fast" | "normal" | "slow";
+  /** Named distance preset. Works in both engines. */
+  distancePreset?: "small" | "medium" | "large";
   class?: string;
   [key: string]: unknown;
 }
@@ -33,6 +39,9 @@ const {
   distance,
   index,
   duration,
+  easing,
+  speed,
+  distancePreset,
   class: className,
   style: userStyle,
   ...rest
@@ -49,6 +58,14 @@ const vars = [
 const style = [vars, userStyle].filter(Boolean).join(";") || undefined;
 ---
 
-<Tag data-reveal={animation} class={className} style={style} {...rest}>
+<Tag
+  data-reveal={animation}
+  data-easing={easing || undefined}
+  data-speed={speed || undefined}
+  data-distance-preset={distancePreset || undefined}
+  class={className}
+  style={style}
+  {...rest}
+>
   <slot />
 </Tag>
