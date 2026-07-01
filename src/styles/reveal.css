@@ -21,15 +21,9 @@
  */
 
 @layer astro-reveal {
-   /* Tunable knobs. Override per-element via inline style or globally here. */
+   /* Per-element stagger position — almost always set inline. */
    [data-reveal] {
-      --reveal-distance: 1.5rem;
-      --reveal-blur: 8px;
-      --reveal-scale: 0.94;
-      --reveal-duration: 700ms;
-      --reveal-easing: cubic-bezier(0.16, 1, 0.3, 1); /* easeOutExpo-ish */
-      --reveal-index: 0; /* stagger position within a group */
-      --reveal-stagger: 90ms; /* per-index delay (observer mode) */
+      --reveal-index: 0;
    }
 
    /* Named easing presets — observer/auto mode only (sets --reveal-easing) */
@@ -101,29 +95,29 @@
       html.reveal-js [data-reveal] {
          opacity: 0;
          transition-property: opacity, transform, filter;
-         transition-duration: var(--reveal-duration);
-         transition-timing-function: var(--reveal-easing);
-         transition-delay: calc(var(--reveal-index) * var(--reveal-stagger));
+         transition-duration: var(--reveal-duration, 700ms);
+         transition-timing-function: var(--reveal-easing, cubic-bezier(0.16, 1, 0.3, 1));
+         transition-delay: calc(var(--reveal-index) * var(--reveal-stagger, 90ms));
          will-change: opacity, transform;
       }
 
       html.reveal-js [data-reveal="up"] {
-         transform: translateY(var(--reveal-distance));
+         transform: translateY(var(--reveal-distance, 1.5rem));
       }
       html.reveal-js [data-reveal="down"] {
-         transform: translateY(calc(-1 * var(--reveal-distance)));
+         transform: translateY(calc(-1 * var(--reveal-distance, 1.5rem)));
       }
       html.reveal-js [data-reveal="left"] {
-         transform: translateX(var(--reveal-distance));
+         transform: translateX(var(--reveal-distance, 1.5rem));
       }
       html.reveal-js [data-reveal="right"] {
-         transform: translateX(calc(-1 * var(--reveal-distance)));
+         transform: translateX(calc(-1 * var(--reveal-distance, 1.5rem)));
       }
       html.reveal-js [data-reveal="scale"] {
-         transform: scale(var(--reveal-scale));
+         transform: scale(var(--reveal-scale, 0.94));
       }
       html.reveal-js [data-reveal="blur"] {
-         filter: blur(var(--reveal-blur));
+         filter: blur(var(--reveal-blur, 8px));
       }
       /* "fade" needs no transform, opacity:0 above is enough */
 
@@ -143,7 +137,7 @@
    @keyframes reveal-up {
       from {
          opacity: 0;
-         transform: translateY(var(--reveal-distance));
+         transform: translateY(var(--reveal-distance, 1.5rem));
       }
       to {
          opacity: 1;
@@ -153,7 +147,7 @@
    @keyframes reveal-down {
       from {
          opacity: 0;
-         transform: translateY(calc(-1 * var(--reveal-distance)));
+         transform: translateY(calc(-1 * var(--reveal-distance, 1.5rem)));
       }
       to {
          opacity: 1;
@@ -163,7 +157,7 @@
    @keyframes reveal-left {
       from {
          opacity: 0;
-         transform: translateX(var(--reveal-distance));
+         transform: translateX(var(--reveal-distance, 1.5rem));
       }
       to {
          opacity: 1;
@@ -173,7 +167,7 @@
    @keyframes reveal-right {
       from {
          opacity: 0;
-         transform: translateX(calc(-1 * var(--reveal-distance)));
+         transform: translateX(calc(-1 * var(--reveal-distance, 1.5rem)));
       }
       to {
          opacity: 1;
@@ -191,7 +185,7 @@
    @keyframes reveal-scale {
       from {
          opacity: 0;
-         transform: scale(var(--reveal-scale));
+         transform: scale(var(--reveal-scale, 0.94));
       }
       to {
          opacity: 1;
@@ -201,7 +195,7 @@
    @keyframes reveal-blur {
       from {
          opacity: 0;
-         filter: blur(var(--reveal-blur));
+         filter: blur(var(--reveal-blur, 8px));
       }
       to {
          opacity: 1;

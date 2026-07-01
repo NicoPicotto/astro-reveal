@@ -115,7 +115,33 @@ Tune per element with CSS custom properties (via the component or inline style):
 | `--reveal-index`     | `0`                            | stagger position  |
 | `--reveal-stagger`   | `90ms`                         | observer mode     |
 
-Set them globally by targeting `[data-reveal]` in your own CSS. Everything ships inside `@layer astro-reveal`, so your styles always win without specificity battles.
+Everything ships inside `@layer astro-reveal`, so your own styles always win without specificity battles.
+
+### Theming
+
+These variables are inherited, so you can set them on any ancestor and every `[data-reveal]` descendant picks them up automatically:
+
+```css
+/* Global defaults for the whole page */
+:root {
+  --reveal-distance: 2rem;
+  --reveal-duration: 900ms;
+}
+
+/* Override for a specific section */
+.hero {
+  --reveal-distance: 4rem;
+}
+```
+
+**Precedence (highest to lowest):**
+
+1. Inline style on the element — `style="--reveal-distance: 6rem"`
+2. Attribute preset on the element — `data-distance-preset="large"`
+3. Ancestor rule — `:root`, `section`, `.hero`, etc.
+4. Built-in default — e.g. `1.5rem`
+
+`--reveal-index` is the one exception: it is declared per element (default `0`) and is almost always set inline for stagger. Set it on each individual element, not on an ancestor.
 
 ### Easing presets
 
