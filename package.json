@@ -58,5 +58,6 @@
    "repository": {
       "type": "git",
       "url": "git+https://github.com/NicoPicotto/astro-reveal.git"
-   }
+   },
+   "homepage": "https://astro-reveal.nicopicotto.dev/"
 }

@@ -1,5 +1,7 @@
 # astro-reveal
 
+**[Documentación & Demo](https://astro-reveal.nicopicotto.dev/) · [Playground](https://astro-reveal.nicopicotto.dev/playground/)**
+
 Scroll reveal animations for [Astro](https://astro.build) — smooth slide-ins, fades, scales — that work with **any** UI framework or no framework at all.
 
 - **Zero runtime JS by default.** Uses native CSS [scroll-driven animations](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timeline). In purist mode your page ships a single stylesheet and nothing else.
