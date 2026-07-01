@@ -1,5 +1,11 @@
 # astro-reveal
 
+## 0.3.1
+
+### Patch Changes
+
+- e5cfe47: add astro-integration keyword and docs
+
 ## 0.3.0
 
 ### Minor Changes
