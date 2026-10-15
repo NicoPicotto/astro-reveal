@@ -38,24 +38,23 @@ function getConfig(): RevealConfig {
 function shouldRun(): boolean {
   // Only the JS engine touches the DOM. If the marker isn't there
   // (purist / auto-on-supporting-browser), the CSS engine owns this page.
-  if (!document.documentElement.classList.contains("reveal-js")) return false;
+  if (!useJS()) return false;
   // Respect the user. The hidden state is gated by no-preference in CSS,
   // so content is already visible — nothing for us to do.
-  if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return false;
+  if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches)
+    return false;
   return true;
 }
 
 let observer: IntersectionObserver | null = null;
 let mutationObserver: MutationObserver | null = null;
-const tracked = new WeakSet<Element>();
 
 function reveal(el: Element) {
   el.classList.add(REVEALED);
 }
 
 function observe(el: Element, config: RevealConfig) {
-  if (tracked.has(el) || el.classList.contains(REVEALED)) return;
-  tracked.add(el);
+  if (el.classList.contains(REVEALED)) return;
   observer!.observe(el);
 }
 
@@ -80,7 +79,7 @@ function setup() {
         if (config.once) observer!.unobserve(entry.target);
       }
     },
-    { threshold: config.threshold, rootMargin: config.rootMargin }
+    { threshold: config.threshold, rootMargin: config.rootMargin },
   );
 
   for (const el of collect()) observe(el, config);
@@ -100,7 +99,14 @@ function setup() {
   mutationObserver.observe(document.body, { childList: true, subtree: true });
 }
 
+function useJS() {
+  return (window as unknown as { __revealJS__?: boolean }).__revealJS__;
+}
+
 function init() {
+  // Cache this value in the window in case the body is switched out
+  (window as unknown as { __revealJS__?: boolean }).__revealJS__ =
+    document.documentElement.classList.contains("reveal-js");
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", setup, { once: true });
   } else {
@@ -110,6 +116,13 @@ function init() {
 
 init();
 // Astro View Transitions: the DOM is swapped, observers are stale. Re-arm.
-document.addEventListener("astro:page-load", setup);
+document.addEventListener("astro:page-load", () => {
+  if (!useJS()) {
+    return;
+  }
+  // This might have been removed in view transition, re-add it
+  document.documentElement.classList.add("reveal-js");
+  setup();
+});
 
 export {};
