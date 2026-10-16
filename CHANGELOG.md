@@ -1,5 +1,12 @@
 # astro-reveal
 
+## 0.3.2
+
+### Patch Changes
+
+- f8799e0: Update setup to support Astro's client-side router
+- 529597d: Restore the `reveal-js` marker on `astro:after-swap` so it is applied before the new page paints, avoiding a brief flash between engines during View Transitions
+
 ## 0.3.1
 
 ### Patch Changes
