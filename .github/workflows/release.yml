@@ -9,7 +9,7 @@ concurrency: release-${{ github.ref }}
 permissions:
   contents: write       # create the version PR / tags
   pull-requests: write  # open the "Version Packages" PR
-  id-token: write       # npm provenance
+  id-token: write       # npm trusted publishing (OIDC) + provenance
 
 jobs:
   release:
@@ -19,7 +19,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24  # ships npm 11, required for trusted publishing
           cache: npm
           registry-url: https://registry.npmjs.org
 
@@ -36,5 +36,4 @@ jobs:
           publish: npm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
