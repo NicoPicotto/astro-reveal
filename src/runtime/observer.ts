@@ -115,14 +115,14 @@ function init() {
 }
 
 init();
+// The router swaps <html> attributes, dropping the marker. Restore it before
+// the new page paints, so the CSS engine never flashes in between.
+document.addEventListener("astro:after-swap", () => {
+  if (useJS()) document.documentElement.classList.add("reveal-js");
+});
 // Astro View Transitions: the DOM is swapped, observers are stale. Re-arm.
 document.addEventListener("astro:page-load", () => {
-  if (!useJS()) {
-    return;
-  }
-  // This might have been removed in view transition, re-add it
-  document.documentElement.classList.add("reveal-js");
-  setup();
+  if (useJS()) setup();
 });
 
 export {};
